@@ -5,11 +5,11 @@ from flask import Flask,render_template,redirect
 
 import feedparser
 import boto3
-app = Flask(__name__)
+application = Flask(__name__)
 
 db = SQL("sqlite:///news.db")
 
-@app.route("/")
+@application.route("/")
 def home():
     ## query database for positive only news
     pos_articles = db.execute("SELECT * FROM news WHERE sentiment = ? ORDER BY id DESC","POSITIVE")
@@ -53,7 +53,7 @@ def home():
     rows = len(news_p)
     return render_template("index.html",news=news_p,len=rows)
 
-@app.route("/generate")
+@application.route("/generate")
 def generate():
     agencies = ["https://rss.nytimes.com/services/xml/rss/nyt/World.xml","https://feeds.a.dj.com/rss/RSSWorldNews.xml",
                 "https://news.google.com/rss","http://feeds.bbci.co.uk/news/world/rss.xml#",
